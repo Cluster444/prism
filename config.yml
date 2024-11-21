@@ -1229,8 +1229,20 @@ nodes:
       - name: expression
         type: node?
         kind: non-void expression
+        comment: |
+          The expression to evaluate into a block argument. This can be any [non-void expressions](https://github.com/ruby/prism/blob/main/docs/parsing_rules.md#non-void-expression).
+
+          bar(&:symbol)
+               ^^^^^^^
+          bar(&method(:foo))
+               ^^^^^^^^^^^^
       - name: operator_loc
         type: location
+        comment: |
+          The location of the block argument operator
+
+          bar(&args)
+              ^
     comment: |
       Represents a block argument using `&`.
 
