@@ -1253,6 +1253,7 @@ nodes:
     fields:
       - name: name
         type: constant
+        comment: The name of the block local variable
     comment: |
       Represents a block local variable.
 
