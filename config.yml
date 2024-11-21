@@ -1263,21 +1263,59 @@ nodes:
     fields:
       - name: locals
         type: constant[]
+        comment: |
+          A list of zero of more constants that are block parameters or block local variables.
+
+          foo {|a; b| b = a + 1 }
+                ^^^^
       - name: parameters
         type: node?
         kind:
           - BlockParametersNode
           - NumberedParametersNode
           - ItParametersNode
+        comment: |
+          A list of zero or more nodes that represent named block paramaters, or implicit numbered and 'it' paramaters used in the block.
+
+          foo {|a| a + 1 }
+                ^
+
+          foo { _1 + 1 }
+                ^^
+
+          foo { it + 1 }
+                ^^
       - name: body
         type: node?
         kind:
           - StatementsNode
           - BeginNode
+        comment: |
+          The statements that make up the block. This may be null if the block is empty, or a begin node if the block contains any begin node clauses.
       - name: opening_loc
         type: location
+        comment: |
+          The opening location of the block start, either an open brace or do keyword
+
+          foo { 1 + 1 }
+              ^
+
+          foo do
+              ^^
+            1 + 1
+          end
       - name: closing_loc
         type: location
+        comment: |
+          The closing location of the block end, either a closed brace or end keyword
+
+          foo { 1 + 1 }
+                      ^
+
+          foo do
+            1 + 1
+          end
+          ^^^
     comment: |
       Represents a block of ruby code.
 
