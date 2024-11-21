@@ -976,19 +976,72 @@ nodes:
         kind:
           - ConstantReadNode
           - ConstantPathNode
+        comment: |
+          Represents a constant to be checked with === when matching non-primitives using deconstruction.
+
+            foo in Bar[]
+                   ^^^
+
+            foo in Bar::Baz[]
+                   ^^^^^^^^
       - name: requireds
         type: node[]
         kind: pattern expression
+        comment: |
+          A list of zero or more [non-void expressions](https://github.com/ruby/prism/blob/main/docs/parsing_rules.md#non-void-expression) that are required to match.
+          foo in 1, 2
+                 ^^^^
+
+          foo in [1, 2]
+                 ^^^^^^
+
+          foo in *1
+                 ^^
+
+          foo in Bar[ ]
+                     ^
+
+          foo in Bar[1, 2, 3]
+                     ^^^^^^^
       - name: rest
         type: node?
         kind: pattern expression
+        comment: |
+          Allows bypassing the requirement that arrays require matching the whole array. Uses a SplatNode or a trailing comma will create an ImplicitRestNode.
+
+          foo in [1, *]
+                     ^
+
+          foo in [*, 1]
+                  ^
+
+          foo in [1, *, 3, 4]
+                     ^
+
+          foo in [1, 2, ]
+                       ^
       - name: posts
         type: node[]
         kind: pattern expression
+        comment: |
+          A list of zero or more [non-void expressions](https://github.com/ruby/prism/blob/main/docs/parsing_rules.md#non-void-expression) that are required to match after an explicit RestNode.
+
+          foo in [1, *, 2, 3]
+                        ^^^^
       - name: opening_loc
         type: location?
+        comment: |
+          The location of the opening square brace if provided.
+
+          foo in [1, 2]
+                 ^
       - name: closing_loc
         type: location?
+        comment: |
+          The location of the opening square brace if provided.
+
+          foo in [1, 2]
+                      ^
     comment: |
       Represents an array pattern in pattern matching.
 
