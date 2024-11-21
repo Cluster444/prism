@@ -932,6 +932,8 @@ nodes:
       - name: arguments
         type: node[]
         kind: non-void expression
+        comment: |
+        comment: Represents the list of zero or more [non-void expressions](https://github.com/ruby/prism/blob/main/docs/parsing_rules.md#non-void-expression) arguments.
     comment: |
       Represents a set of arguments to a method or a keyword.
 
