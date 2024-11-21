@@ -1139,20 +1139,83 @@ nodes:
     fields:
       - name: begin_keyword_loc
         type: location?
+        comment: |
+          The location of the begin keyword for the node. This will be nil for implicit BeginNode blocks (def/class/module/block).
+
+          begin
+          ^^^^^
+            foo()
+          end
       - name: statements
         type: node?
         kind: StatementsNode
+          The array of statements that are within the bounds of the node before any of the BeginNode clauses are reached. May be nil if there are no statements.
+
+          begin
+            foo()
+            ^^^^^
+          end
       - name: rescue_clause
         type: node?
         kind: RescueNode
+        comment: |
+          Represents one or more rescue statements that occur after the main body of statements in the BeginNode
+
+          begin
+            foo()
+          rescue StandardError => e
+            handle(e)
+          rescue Exception => ex
+            fail(ex)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+          end
       - name: else_clause
         type: node?
         kind: ElseNode
+        comment: |
+          Represents a single clause after all rescues that represents a path when no exceptions occur in the statements of the BeginNode
+
+          begin
+            result = process()
+          rescue ProcessError => error
+            handle(error)
+          else
+            respond(result)
+          ^^^^^^^^^^^^^^^^^
+          end
+
       - name: ensure_clause
         type: node?
         kind: EnsureNode
+        comment:
+          Represents a single clause at the end of the BeginNode as a path to follow after statements are executed and any rescue or else clause has been evaluated.
+
+          begin
+            fd = open()
+          rescue => e
+            report(e)
+          else
+            respond(read(fd))
+          ensure
+            close(fd)
+          ^^^^^^^^^^^
+          end
       - name: end_keyword_loc
         type: location?
+        comment: |
+          The location of the end keyword for the node. In the case of an implicit BeginNode, this will have a value that overlaps with the surrounding node.
+
+          begin
+            foo()
+          end
+          ^^^
+
+          def method
+            foo()
+          ensure
+            bar()
+          end
+          ^^^
     newline: false
     comment: |
       Represents a begin statement.
